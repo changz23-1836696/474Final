@@ -23,7 +23,7 @@ var data1 =[{name:'iPhone',size:0.16},
 {name:'12 Pro',size:3.66},
 {name:'12 Pro Max',size:4.7},
 {name:'13',size:2.95},
-{name:'13 Pro/Pro Max',size:5.69},]
+{name:'13 Pro/Pro Max',size:5.69}]
 
 var data2 =[{name:'iPhone',size:0.16},
 {name:'3G',size:0.2},
@@ -56,6 +56,7 @@ var svg = d3.select("#my_dataviz")
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")");
 
+
 // Initialise a X axis:
 var xScale = d3.scalePoint()
   .domain(data1.map(function(d) {
@@ -79,6 +80,18 @@ svg.append("g")
   .attr("transform", "translate(50,0)")
   .attr("class","myYaxis")
 
+//y axis lable
+svg.append("text")
+.transition()
+    .duration(3000)
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("y", 0)
+    .attr("dy", ".75em")
+    .attr("dx", "-3em")
+    .attr("transform", "rotate(-90)")
+    .text("Camera Module Size(cm^2)");
+
 //update
 function update(data) {
 
@@ -96,6 +109,38 @@ svg.selectAll(".myYaxis")
     .duration(3000)
     .call(yAxis);
 
+//create a lisener rect
+svg
+    .append('rect')
+    .style("fill", "blue")
+    .style("pointer-events", "all")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .attr('width', width - margin.left - margin.right - 20)
+    .attr('height', height - margin.top - margin.bottom - 20)
+    .style("opacity", 0)
+     .on('mouseover', mouseover)
+     .on('mousemove', mousemove)
+     .on('mouseout', mouseout);
+
+// Create the circle that travels along the curve of chart
+var focus = svg
+.append('g')
+.append('circle')
+  .style("fill", "none")
+  .attr("stroke", "black")
+  .attr('r', 4)
+  .style("opacity", 0)
+
+// Create the text that travels along the curve of chart
+var focusText = svg
+.append('g')
+.append('text')
+  .style("opacity", 0)
+  .attr("text-anchor", "left")
+  .attr("alignment-baseline", "middle")
+
+
+//update value
 var u = svg.selectAll(".lineTest")
     .data([data], function(d){ return d.name });
 
@@ -113,24 +158,38 @@ u
       .attr("stroke", "steelblue")
       .attr("stroke-width", 2.5)
 
-// var line = d3.line()
-// .x(function(d){ return xScale(d.name)})
-// .y(function(d){ return yScale(d.size)});
+// What happens when the mouse move -> show the annotations at the right positions.
+function mouseover() {
+        focus.style("opacity", 1)
+        focusText.style("opacity",1)
+      }
 
-// svg.append("path")
-// .attr("d", line(data))
-// .attr("stroke", "teal")
-// .attr("stroke-width", "2")
-// .attr("fill", "none");
+function mouseout() {
+        focus.style("opacity", 0)
+        focusText.style("opacity", 0)
+      }
 
-// svg.append("g").attr("transform", "translate(0,310)")
-//   .attr("class", "xAxis")
-//   .call(xAxis);
+function mousemove() {
+        var xPos = d3.mouse(this)[0]
+        var domain = xScale.domain()
+        var range = xScale.range()
+        var rangePoints = d3.range(range[0], range[1], xScale.step())
+        var yPos = domain[d3.bisect(rangePoints, xPos)]
+        var size = 0;
+        data.forEach(function(element) {
+          if (element.name == yPos) {
+              size = element.size
+          }
+      })
+        focus
+        .attr("cx", xScale(yPos))
+        .attr("cy", yScale(size))
+        focusText
+      .html("" + yPos   )
+      .attr("x", xScale(yPos)-15)
+      .attr("y", yScale(size)-15)
+      }
 
-// svg.append("g")
-//   .attr("transform", "translate(50,0)")
-//   .attr("class", "yAxis")
-//   .call(yAxis);
  }
 
 update(data1)
