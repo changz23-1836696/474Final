@@ -1,44 +1,44 @@
-var data1 =[{name:'iPhone',size:0.16},
-{name:'3G',size:0.2},
-{name:'3GS',size:0.2},
-{name:'4/4S',size:0.38},
-{name:'5',size:0.33},
-{name:'5C',size:0.26},
-{name:'5S/SE',size:0.3},
-{name:'6',size:0.41},
-{name:'6 Plus',size:0.47},
-{name:'6S',size:0.41},
-{name:'6S Plus',size:0.47},
-{name:'7',size:0.58},
-{name:'7 Plus',size:0.9},
-{name:'8',size:0.58},
-{name:'8 Plus',size:0.82},
-{name:'X',size:2.21},
-{name:'XR',size:0.94},
-{name:'XS Max',size:2.19},
-{name:'11',size:2.3},
-{name:'11 Pro Max',size:3.57},
-{name:'SE(gen2)',size:0.58},
-{name:'12',size:2.3},
-{name:'12 Pro',size:3.66},
-{name:'12 Pro Max',size:4.7},
-{name:'13',size:2.95},
-{name:'13 Pro/Pro Max',size:5.69}]
+var data1 =[{name:'iPhone',size:0.16,num:1},
+{name:'3G',size:0.2,num:1},
+{name:'3GS',size:0.2,num:1},
+{name:'4/4S',size:0.38,num:1},
+{name:'5',size:0.33,num:1},
+{name:'5C',size:0.26,num:1},
+{name:'5S/SE',size:0.3,num:1},
+{name:'6',size:0.41,num:1},
+{name:'6 Plus',size:0.47,num:1},
+{name:'6S',size:0.41,num:1},
+{name:'6S Plus',size:0.47,num:1},
+{name:'7',size:0.58,num:1},
+{name:'7 Plus',size:0.9,num:2},
+{name:'8',size:0.58,num:1},
+{name:'8 Plus',size:0.82,num:2},
+{name:'X',size:2.21,num:2},
+{name:'XR',size:0.94,num:1},
+{name:'XS Max',size:2.19,num:2},
+{name:'11',size:2.3,num:2},
+{name:'11 Pro Max',size:3.57,num:3},
+{name:'SE2',size:0.58,num:1},
+{name:'12',size:2.3,num:2},
+{name:'12 Pro',size:3.66,num:3},
+{name:'12 Pro Max',size:4.7,num:3},
+{name:'13',size:2.95,num:2},
+{name:'13 Pro/Pro Max',size:5.69,num:3}]
 
-var data2 =[{name:'iPhone',size:0.16},
-{name:'3G',size:0.2},
-{name:'3GS',size:0.2},
-{name:'4S',size:0.38},
-{name:'5S',size:0.3},
-{name:'6 Plus',size:0.47},
-{name:'6S Plus',size:0.47},
-{name:'7 Plus',size:0.9},
-{name:'8 Plus',size:0.82},
-{name:'X',size:2.21},
-{name:'XS Max',size:2.19},
-{name:'11 Pro Max',size:3.57},
-{name:'12 Pro Max',size:4.7},
-{name:'13 Pro/Pro Max',size:5.69},]
+var data2 =[{name:'iPhone',size:0.16,num:1},
+{name:'3G',size:0.2,num:1},
+{name:'3GS',size:0.2,num:1},
+{name:'4S',size:0.38,num:1},
+{name:'5S',size:0.3,num:1},
+{name:'6 Plus',size:0.47,num:1},
+{name:'6S Plus',size:0.47,num:1},
+{name:'7 Plus',size:0.9,num:2},
+{name:'8 Plus',size:0.82,num:2},
+{name:'X',size:2.21,num:2},
+{name:'XS Max',size:2.19,num:2},
+{name:'11 Pro Max',size:3.57,num:3},
+{name:'12 Pro Max',size:4.7,num:3},
+{name:'13 Pro/Pro Max',size:5.69,num:3}]
 
 //any better way to impert data??
 
@@ -136,6 +136,14 @@ var focusText = svg
 .append('g')
 .append('text')
   .style("opacity", 0)
+  .attr("font-size", '10px')
+  .attr("text-anchor", "left")
+  .attr("alignment-baseline", "middle")
+var cameraNumber = svg
+.append('g')
+.append('text')
+  .style("opacity", 0)
+  .attr("font-size", '10px')
   .attr("text-anchor", "left")
   .attr("alignment-baseline", "middle")
 
@@ -162,11 +170,13 @@ u
 function mouseover() {
         focus.style("opacity", 1)
         focusText.style("opacity",1)
+        cameraNumber.style("opacity",1)
       }
 
 function mouseout() {
         focus.style("opacity", 0)
         focusText.style("opacity", 0)
+        cameraNumber.style("opacity",0)
       }
 
 function mousemove() {
@@ -176,19 +186,27 @@ function mousemove() {
         var rangePoints = d3.range(range[0], range[1], xScale.step())
         var yPos = domain[d3.bisect(rangePoints, xPos)]
         var size = 0;
+        var num = 0;
         data.forEach(function(element) {
           if (element.name == yPos) {
               size = element.size
+              num = element.num
           }
       })
         focus
         .attr("cx", xScale(yPos))
         .attr("cy", yScale(size))
-        focusText
-      .html("" + yPos   )
+
+      focusText
+      .html(yPos + ": " + size + "cm^2")
+      .attr("x", xScale(yPos)-15)
+      .attr("y", yScale(size)-30)
+
+      cameraNumber
+      .html("With " + num + " camera")
       .attr("x", xScale(yPos)-15)
       .attr("y", yScale(size)-15)
-      }
+    }
 
  }
 
