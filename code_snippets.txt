@@ -1,0 +1,67 @@
+/* This will be the different values to choose, layout/presentation can be subject to change */
+<label for="iphone">Select an iPhone Model:</label>
+<select name="iphone-names" id="iphone-names">
+    <option value="All" selected="selected">All</option>
+    <option value="Flagship">Flagship</option>
+    <option value="iPhone">iPhone</option>
+    <option value="iPhone 3G">iPhone 3G</option>
+    <option value="iPhone 3GS">iPhone 3GS</option>
+    <option value="iPhone 4/4S">iPhone 4/4S</option>
+    <option value="iPhone 5">iPhone 5</option>
+    <option value="iPhone 5C">iPhone 5C</option>
+    <option value="iPhone 5S/SE">iPhone 5S/SE</option>
+    <option value="iPhone 6">iPhone 6</option>
+    <option value="iPhone 6 Plus">iPhone 6 Plus</option>
+    <option value="iPhone 6s">iPhone 6s</option>
+    <option value="iPhone 6s Plus">iPhone 6s Plus</option>
+    <option value="iPhone 7">iPhone 7</option>
+    <option value="iPhone 7 Plus">iPhone 7 Plus</option>
+    <option value="iPhone 8">iPhone 8</option>
+    <option value="iPhone 8 Plus">iPhone 8 Plus</option>
+    <option value="iPhone X">iPhone X</option>
+    <option value="iPhone XR">iPhone XR</option>
+    <option value="iPhone XS Max">iPhone XS Max</option>
+    <option value="iPhone 11">iPhone 11</option>
+    <option value="iPhone 11 Pro Max">iPhone 11 Pro Max</option>
+    <option value="iPhone SE (gen2)">iPhone SE (gen2)</option>
+    <option value="iPhone 12">iPhone 12</option>
+    <option value="iPhone 12 Pro">iPhone 12 Pro</option>
+    <option value="iPhone 12 Pro Max">iPhone 12 Pro Max</option>
+    <option value="iPhone 13">iPhone 13</option>
+    <option value="iPhone 13 Pro/Pro Max">iPhone 13 Pro/Pro Max</option>
+</select>
+
+/* Gets called when the page loads, creates the data set to have easier
+access to the contents + select from, add the events listenver to the
+change on the menu grab diff values
+
+I think we can also keep the hard set values to create the All and Flagship?
+*/
+
+window.addEventListener("load", init);
+const DATASET = [];
+
+function init() {
+    d3.csv("data.csv").then(function(data) {
+        for (let i = 0; i < data.length; i++) {
+            DATASET.push({name: data[i].name, diameter: data[i].diameter,
+            num: data[i].num, focal_ratio: data[i].focal_ratio,
+            focal_length: data[i].focal_length, size: data[i].size});
+        }
+    });
+
+    let selecting = document.getElementById('iphone-names');
+    selecting.addEventListener('click', FUNCTION NAME);
+}
+
+/* Variable to be used once the chart has been updated with a filter,
+   phoneToUse can replace the name/index where the data will be taken
+*/
+
+let phoneToUse = document.getElementById("iphone-names").value
+
+
+
+
+
+
