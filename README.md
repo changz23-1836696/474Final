@@ -1,8 +1,7 @@
 # iPhone Camera Trend
-(project description)
+Visualization showcases the trend of iPhone camera count & size over the time. This visualization has two levels of interactivity: filtering for different insights and mouse-hovering for further detailing.
 
-## Group Member
-
+## Group Members
 John-Luke Dokupil - jdokupil@uw.edu\
 Chang Zeng - changz23@uw.edu\
 Diego Torres - diegot@uw.edu
