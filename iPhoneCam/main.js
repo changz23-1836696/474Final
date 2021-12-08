@@ -80,7 +80,7 @@ svg.append("g")
   .attr("transform", "translate(50,0)")
   .attr("class","myYaxis")
 
-//y axis lable
+//y axis label
 svg.append("text")
 .transition()
     .duration(3000)
@@ -203,7 +203,7 @@ function mousemove() {
       .attr("y", yScale(size)-30)
 
       cameraNumber
-      .html("With " + num + " camera")
+      .html("With " + num + " camera(s)")
       .attr("x", xScale(yPos)-15)
       .attr("y", yScale(size)-15)
     }
